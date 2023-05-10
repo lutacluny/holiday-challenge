@@ -18,9 +18,15 @@ export default function Page() {
     async function fetchData() {
         const parameters = GetHotelOffersFromQuery(query);
         console.log(parameters);
-        const api = new OpenAPIClientAxios({definition: 'http://localhost:8090/openapi', withServer: 0})
+        const api = new OpenAPIClientAxios({
+            definition: 'http://localhost:8090/openapi.json', axiosConfigDefaults: {
+                withCredentials: true,
+                baseURL: 'http://localhost:8090',
+                paramsSerializer: { indexes: null }
+            },
+        })
         const client = await api.init<Client>()
-        const response = await client.GetHotelOffers(parameters)
+        const response = await client.get_hotel_offers(parameters)
         setHotelOffer(response.data)
     }
 
@@ -39,8 +45,22 @@ export default function Page() {
                 <Rating value={hotelOffer.hotel.stars} readOnly/>
             </Stack>
             <Stack direction="row" height="250px" pt={2}>
-                <Box sx={{borderTopLeftRadius: "5px", borderBottomLeftRadius: "5px", backgroundImage: `url("/hotels/${(hotelOffer.hotel.id % 40) + 1}.jpg")`, width: "50%", backgroundSize: "cover", backgroundPosition: "center"}}/>
-                <Box sx={{borderTopRightRadius: "5px", borderBottomRightRadius: "5px", backgroundImage: `url("/rooms/${(hotelOffer.hotel.id % 30) + 1}.jpg")`, width: "50%", backgroundSize: "cover", backgroundPosition: "center"}}/>
+                <Box sx={{
+                    borderTopLeftRadius: "5px",
+                    borderBottomLeftRadius: "5px",
+                    backgroundImage: `url("/hotels/${(hotelOffer.hotel.id % 40) + 1}.jpg")`,
+                    width: "50%",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center"
+                }}/>
+                <Box sx={{
+                    borderTopRightRadius: "5px",
+                    borderBottomRightRadius: "5px",
+                    backgroundImage: `url("/rooms/${(hotelOffer.hotel.id % 30) + 1}.jpg")`,
+                    width: "50%",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center"
+                }}/>
             </Stack>
             <Typography pt={2} variant="h6">Offers:</Typography>
             <Stack gap={2} mt={1}>

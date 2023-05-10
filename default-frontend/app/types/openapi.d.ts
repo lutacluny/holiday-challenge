@@ -1,49 +1,193 @@
 import type {
-    OpenAPIClient,
-    Parameters,
-    UnknownParamsObject,
-    OperationResponse,
-    AxiosRequestConfig,
-} from 'openapi-client-axios';
+  OpenAPIClient,
+  Parameters,
+  UnknownParamsObject,
+  OperationResponse,
+  AxiosRequestConfig,
+} from 'openapi-client-axios'; 
 
 declare namespace Components {
     namespace Schemas {
+        /**
+         * example:
+         * {
+         *   "countAdults": 5,
+         *   "countAvailableOffers": 7,
+         *   "countChildren": 5,
+         *   "departureDate": "2000-01-23",
+         *   "duration": 2,
+         *   "hotel": {
+         *     "id": 0.8008281904610115,
+         *     "name": "name",
+         *     "stars": 6.027456183070403
+         *   },
+         *   "mealType": "mealType",
+         *   "minPrice": 1.4658129805029452,
+         *   "returnDate": "2000-01-23",
+         *   "roomType": "roomType"
+         * }
+         */
         export interface BestHotelOffer {
-            hotel: Hotel;
-            minPrice: number;
+            countAdults: number;
+            countAvailableOffers: number;
+            countChildren: number;
             departureDate: string; // date
+            duration: number;
+            hotel: /**
+             * example:
+             * {
+             *   "id": 0.8008281904610115,
+             *   "name": "name",
+             *   "stars": 6.027456183070403
+             * }
+             */
+            Hotel;
+            mealType?: string;
+            minPrice: number;
             returnDate: string; // date
             roomType?: string;
-            mealType?: string;
-            countAdults: number;
-            countChildren: number;
-            duration: number;
-            countAvailableOffers: number;
         }
-        export type GetBestHotelOffersResponse = BestHotelOffer[];
+        export type GetBestHotelOffersResponse = /**
+         * example:
+         * {
+         *   "countAdults": 5,
+         *   "countAvailableOffers": 7,
+         *   "countChildren": 5,
+         *   "departureDate": "2000-01-23",
+         *   "duration": 2,
+         *   "hotel": {
+         *     "id": 0.8008281904610115,
+         *     "name": "name",
+         *     "stars": 6.027456183070403
+         *   },
+         *   "mealType": "mealType",
+         *   "minPrice": 1.4658129805029452,
+         *   "returnDate": "2000-01-23",
+         *   "roomType": "roomType"
+         * }
+         */
+        BestHotelOffer[];
+        /**
+         * example:
+         * {
+         *   "hotel": {
+         *     "id": 0.8008281904610115,
+         *     "name": "name",
+         *     "stars": 6.027456183070403
+         *   },
+         *   "items": [
+         *     {
+         *       "countAdults": 6,
+         *       "countChildren": 1,
+         *       "inboundArrivalAirport": "inboundArrivalAirport",
+         *       "inboundArrivalDatetime": "inboundArrivalDatetime",
+         *       "inboundDepartureAirport": "inboundDepartureAirport",
+         *       "inboundDepartureDatetime": "2000-01-23",
+         *       "mealType": "mealType",
+         *       "oceanView": true,
+         *       "outboundArrivalAirport": "outboundArrivalAirport",
+         *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *       "outboundDepartureAirport": "outboundDepartureAirport",
+         *       "outbundDepartureDatetime": "2000-01-23",
+         *       "price": 0.8008281904610115,
+         *       "roomType": "roomType"
+         *     },
+         *     {
+         *       "countAdults": 6,
+         *       "countChildren": 1,
+         *       "inboundArrivalAirport": "inboundArrivalAirport",
+         *       "inboundArrivalDatetime": "inboundArrivalDatetime",
+         *       "inboundDepartureAirport": "inboundDepartureAirport",
+         *       "inboundDepartureDatetime": "2000-01-23",
+         *       "mealType": "mealType",
+         *       "oceanView": true,
+         *       "outboundArrivalAirport": "outboundArrivalAirport",
+         *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *       "outboundDepartureAirport": "outboundDepartureAirport",
+         *       "outbundDepartureDatetime": "2000-01-23",
+         *       "price": 0.8008281904610115,
+         *       "roomType": "roomType"
+         *     }
+         *   ]
+         * }
+         */
         export interface GetHotelOffersResponse {
-            hotel: Hotel;
-            items: Offer[];
+            hotel: /**
+             * example:
+             * {
+             *   "id": 0.8008281904610115,
+             *   "name": "name",
+             *   "stars": 6.027456183070403
+             * }
+             */
+            Hotel;
+            items: /**
+             * example:
+             * {
+             *   "countAdults": 6,
+             *   "countChildren": 1,
+             *   "inboundArrivalAirport": "inboundArrivalAirport",
+             *   "inboundArrivalDatetime": "inboundArrivalDatetime",
+             *   "inboundDepartureAirport": "inboundDepartureAirport",
+             *   "inboundDepartureDatetime": "2000-01-23",
+             *   "mealType": "mealType",
+             *   "oceanView": true,
+             *   "outboundArrivalAirport": "outboundArrivalAirport",
+             *   "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *   "outboundDepartureAirport": "outboundDepartureAirport",
+             *   "outbundDepartureDatetime": "2000-01-23",
+             *   "price": 0.8008281904610115,
+             *   "roomType": "roomType"
+             * }
+             */
+            Offer[];
         }
+        /**
+         * example:
+         * {
+         *   "id": 0.8008281904610115,
+         *   "name": "name",
+         *   "stars": 6.027456183070403
+         * }
+         */
         export interface Hotel {
             id: number;
             name: string;
             stars: number;
         }
+        /**
+         * example:
+         * {
+         *   "countAdults": 6,
+         *   "countChildren": 1,
+         *   "inboundArrivalAirport": "inboundArrivalAirport",
+         *   "inboundArrivalDatetime": "inboundArrivalDatetime",
+         *   "inboundDepartureAirport": "inboundDepartureAirport",
+         *   "inboundDepartureDatetime": "2000-01-23",
+         *   "mealType": "mealType",
+         *   "oceanView": true,
+         *   "outboundArrivalAirport": "outboundArrivalAirport",
+         *   "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *   "outboundDepartureAirport": "outboundDepartureAirport",
+         *   "outbundDepartureDatetime": "2000-01-23",
+         *   "price": 0.8008281904610115,
+         *   "roomType": "roomType"
+         * }
+         */
         export interface Offer {
-            price: number;
             countAdults: number;
             countChildren: number;
-            inboundDepartureAirport: string;
-            inboundDepartureDatetime: string; // date
             inboundArrivalAirport: string;
             inboundArrivalDatetime: string; // datetime
-            outboundDepartureAirport: string;
-            outbundDepartureDatetime?: string; // date
-            outboundArrivalAirport: string;
-            outboundArrivalDatetime: string; // datetime
+            inboundDepartureAirport: string;
+            inboundDepartureDatetime: string; // date
             mealType: string;
             oceanView: boolean;
+            outboundArrivalAirport: string;
+            outboundArrivalDatetime: string; // datetime
+            outboundDepartureAirport: string;
+            outbundDepartureDatetime?: string; // date
+            price: number;
             roomType: string;
         }
     }
@@ -92,51 +236,95 @@ declare namespace Paths {
             departureAirports: Parameters.DepartureAirports;
         }
         namespace Responses {
-            export type $200 = Components.Schemas.GetHotelOffersResponse;
+            export type $200 = /**
+             * example:
+             * {
+             *   "hotel": {
+             *     "id": 0.8008281904610115,
+             *     "name": "name",
+             *     "stars": 6.027456183070403
+             *   },
+             *   "items": [
+             *     {
+             *       "countAdults": 6,
+             *       "countChildren": 1,
+             *       "inboundArrivalAirport": "inboundArrivalAirport",
+             *       "inboundArrivalDatetime": "inboundArrivalDatetime",
+             *       "inboundDepartureAirport": "inboundDepartureAirport",
+             *       "inboundDepartureDatetime": "2000-01-23",
+             *       "mealType": "mealType",
+             *       "oceanView": true,
+             *       "outboundArrivalAirport": "outboundArrivalAirport",
+             *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *       "outboundDepartureAirport": "outboundDepartureAirport",
+             *       "outbundDepartureDatetime": "2000-01-23",
+             *       "price": 0.8008281904610115,
+             *       "roomType": "roomType"
+             *     },
+             *     {
+             *       "countAdults": 6,
+             *       "countChildren": 1,
+             *       "inboundArrivalAirport": "inboundArrivalAirport",
+             *       "inboundArrivalDatetime": "inboundArrivalDatetime",
+             *       "inboundDepartureAirport": "inboundDepartureAirport",
+             *       "inboundDepartureDatetime": "2000-01-23",
+             *       "mealType": "mealType",
+             *       "oceanView": true,
+             *       "outboundArrivalAirport": "outboundArrivalAirport",
+             *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *       "outboundDepartureAirport": "outboundDepartureAirport",
+             *       "outbundDepartureDatetime": "2000-01-23",
+             *       "price": 0.8008281904610115,
+             *       "roomType": "roomType"
+             *     }
+             *   ]
+             * }
+             */
+            Components.Schemas.GetHotelOffersResponse;
         }
     }
 }
 
 export interface OperationMethods {
-    /**
-     * getBestOffersByHotel - get the best (i.e. cheapest) offer for every hotel that has at least one available offer for a given search
-     */
-    'getBestOffersByHotel'(
-        parameters?: Parameters<Paths.GetBestOffersByHotel.QueryParameters> | null,
-        data?: any,
-        config?: AxiosRequestConfig
-    ): OperationResponse<Paths.GetBestOffersByHotel.Responses.$200>
-    /**
-     * GetHotelOffers - get available offers for a given hotel
-     */
-    'GetHotelOffers'(
-        parameters?: Parameters<Paths.GetHotelOffers.PathParameters & Paths.GetHotelOffers.QueryParameters> | null,
-        data?: any,
-        config?: AxiosRequestConfig
-    ): OperationResponse<Paths.GetHotelOffers.Responses.$200>
+  /**
+   * get_best_offers_by_hotel - get the best (i.e. cheapest) offer for every hotel that has at least one available offer for a given search
+   */
+  'get_best_offers_by_hotel'(
+    parameters?: Parameters<Paths.GetBestOffersByHotel.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.GetBestOffersByHotel.Responses.$200>
+  /**
+   * get_hotel_offers - get available offers for a given hotel
+   */
+  'get_hotel_offers'(
+    parameters?: Parameters<Paths.GetHotelOffers.PathParameters & Paths.GetHotelOffers.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.GetHotelOffers.Responses.$200>
 }
 
 export interface PathsDictionary {
-    ['/bestOffersByHotel']: {
-        /**
-         * getBestOffersByHotel - get the best (i.e. cheapest) offer for every hotel that has at least one available offer for a given search
-         */
-        'get'(
-            parameters?: Parameters<Paths.GetBestOffersByHotel.QueryParameters> | null,
-            data?: any,
-            config?: AxiosRequestConfig
-        ): OperationResponse<Paths.GetBestOffersByHotel.Responses.$200>
-    }
-    ['/hotels/{hotelId}/offers']: {
-        /**
-         * GetHotelOffers - get available offers for a given hotel
-         */
-        'get'(
-            parameters?: Parameters<Paths.GetHotelOffers.PathParameters & Paths.GetHotelOffers.QueryParameters> | null,
-            data?: any,
-            config?: AxiosRequestConfig
-        ): OperationResponse<Paths.GetHotelOffers.Responses.$200>
-    }
+  ['/bestOffersByHotel']: {
+    /**
+     * get_best_offers_by_hotel - get the best (i.e. cheapest) offer for every hotel that has at least one available offer for a given search
+     */
+    'get'(
+      parameters?: Parameters<Paths.GetBestOffersByHotel.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.GetBestOffersByHotel.Responses.$200>
+  }
+  ['/hotels/{hotelId}/offers']: {
+    /**
+     * get_hotel_offers - get available offers for a given hotel
+     */
+    'get'(
+      parameters?: Parameters<Paths.GetHotelOffers.PathParameters & Paths.GetHotelOffers.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.GetHotelOffers.Responses.$200>
+  }
 }
 
 export type Client = OpenAPIClient<OperationMethods, PathsDictionary>

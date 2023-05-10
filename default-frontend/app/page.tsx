@@ -21,7 +21,7 @@ export default function HomePage() {
     useEffect(() => {
         const parameters = GetBestOffersByHotelFromQuery(query);
         // parameters should be validated here, but as this is a just a very simple implementation we skip this for now
-        if(parameters.earliestDepartureDate == null) {
+        if (parameters.earliestDepartureDate == null) {
             return;
         }
 
@@ -45,9 +45,16 @@ export default function HomePage() {
     async function load(parameters: Paths.GetBestOffersByHotel.QueryParameters) {
         setQueryParameters(parameters);
         router.push("/?" + GetBestOffersByHotelToQuery(parameters));
-        const api = new OpenAPIClientAxios({definition: 'http://localhost:8090/openapi', withServer: 0})
+        console.log(parameters)
+        const api = new OpenAPIClientAxios({
+            definition: 'http://localhost:8090/openapi.json', axiosConfigDefaults: {
+                withCredentials: true,
+                baseURL: 'http://localhost:8090',
+                paramsSerializer: { indexes: null }
+            },
+        })
         const client = await api.init<Client>()
-        const response = await client.getBestOffersByHotel(parameters);
+        const response = await client.get_best_offers_by_hotel(parameters)
         setOffers(response.data);
     }
 
