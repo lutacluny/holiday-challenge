@@ -23,16 +23,6 @@ type Properties = {
     submitCallback: (departureAirports: string[], countAdults: number, countChildren: number, duration: number, earliestDeparture: string, latestReturn: string, sortBy: SortBy, reverse: boolean) => Promise<void>
 }
 
-interface Airport {
-    code: string,
-    name: string
-}
-
-const availableDepartureAirports: Airport[] = [
-    {code: "MUC", name: "Munich"},
-    {code: "FRA", name: "Frankfurt"},
-]
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -53,10 +43,13 @@ export default function SearchForm({submitCallback}: Properties) {
     const [durationInput, setDurationInput] = useState<string>("");
     const [earliestDepartureDate, setEarliestDepartureDate] = useState<Dayjs | null>(null);
     const [latestReturnDate, setLatestReturnDate] = useState<Dayjs | null>(null);
-    const [sortBy, setSortBy] = useState<SortBy>("price");
+    const [sortBy, setSortBy] = useState<SortBy>("");
     const [reverse, setReverse] = useState<boolean>(false);
 
     const query = useSearchParams();
+
+    const [availableDepartureAirports, setAvailableDepartureAirports] =
+        useState<string[]>([]);
 
     useEffect(() => {
         const params = GetBestOffersByHotelFromQuery(query)
@@ -67,9 +60,20 @@ export default function SearchForm({submitCallback}: Properties) {
         setDurationInput(params.duration ? params.duration.toString() : "");
         setEarliestDepartureDate(params.earliestDepartureDate ? dayjs(params.earliestDepartureDate) : null);
         setLatestReturnDate(params.latestReturnDate ? dayjs(params.latestReturnDate) : null);
-        setSortBy(params.sortBy ? params.sortBy : "price")
+        setSortBy(params.sortBy ? params.sortBy : "")
         setReverse(params.reverse ? params.reverse : false)
     }, [query])
+
+    useEffect(() => {
+        fetch('http://localhost:8090/outboundDepartureAirports')
+            .then((response) => response.json())
+            .then((data) => {
+                setAvailableDepartureAirports(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching departure airports:', error);
+            });
+    }, []);
 
     const handleAirportChange = (event: SelectChangeEvent<typeof departureAirports>) => {
         const {target: {value}} = event;
@@ -106,9 +110,9 @@ export default function SearchForm({submitCallback}: Properties) {
                                 </Box>
                             )}>
                         {availableDepartureAirports.map((airport) => (
-                            <MenuItem key={airport.code} value={airport.code}>
-                                <Checkbox checked={departureAirports.indexOf(airport.code) > -1}/>
-                                <ListItemText primary={airport.code}/>
+                            <MenuItem key={airport} value={airport}>
+                                <Checkbox checked={departureAirports.indexOf(airport) > -1}/>
+                                <ListItemText primary={airport}/>
                             </MenuItem>
                         ))}
                     </Select>
@@ -139,6 +143,7 @@ export default function SearchForm({submitCallback}: Properties) {
                         >
                             <MenuItem value="price">Price</MenuItem>
                             <MenuItem value="stars">Stars</MenuItem>
+                            <MenuItem value="">Do not sort</MenuItem>
                         </Select>
 
                         <FormControlLabel

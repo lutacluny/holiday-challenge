@@ -15,6 +15,9 @@ import SortBy = Paths.GetBestOffersByHotel.Parameters.SortBy;
 export default function HomePage() {
     const [offers, setOffers] = useState<BestHotelOffer[]>([]);
     const [queryParameters, setQueryParameters] = useState<Paths.GetBestOffersByHotel.QueryParameters>();
+    const [currentPage, setCurrentPage] = useState(1); // Current page number
+    const [totalPages, setTotalPages] = useState(0); // Total number of pages
+
     const router = useRouter();
     const query = useSearchParams();
 
@@ -30,7 +33,7 @@ export default function HomePage() {
     }, []);
 
 
-    async function onSubmitSearchForm(departureAirports: string[], countAdults: number, countChildren: number, duration: number, earliestDeparture: string, latestReturn: string, sortBy: SortBy, reverse:boolean) {
+    async function onSubmitSearchForm(departureAirports: string[], countAdults: number, countChildren: number, duration: number, earliestDeparture: string, latestReturn: string, sortBy: SortBy, reverse: boolean) {
         const parameters: Paths.GetBestOffersByHotel.QueryParameters = {
             earliestDepartureDate: earliestDeparture,
             latestReturnDate: latestReturn,
@@ -53,7 +56,7 @@ export default function HomePage() {
             definition: 'http://localhost:8090/openapi.json', axiosConfigDefaults: {
                 withCredentials: true,
                 baseURL: 'http://localhost:8090',
-                paramsSerializer: { indexes: null }
+                paramsSerializer: {indexes: null}
             },
         })
         const client = await api.init<Client>()

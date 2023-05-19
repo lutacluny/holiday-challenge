@@ -206,7 +206,7 @@ declare namespace Paths {
             export type EarliestDepartureDate = string; // date
             export type LatestReturnDate = string; // date
             export type Reverse = boolean;
-            export type SortBy = "stars" | "price";
+            export type SortBy = "" | "stars" | "price";
         }
         export interface QueryParameters {
             earliestDepartureDate: Parameters.EarliestDepartureDate /* date */;
