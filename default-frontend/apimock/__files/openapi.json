@@ -67,6 +67,33 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sort the results by 'stars' or 'price'.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stars",
+                "price"
+              ]
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Sort the results in 'acc' (ascending) or 'dec' (descending) order.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "acc",
+                "dec"
+              ],
+              "default": "acc"
+            }
           }
         ],
         "responses": {
@@ -163,6 +190,24 @@
           }
         }
       }
+    },
+    "/outboundDepartureAirports": {
+      "get": {
+        "operationId": "getOutboundDepartureAirports",
+        "description": "get all outbound departure airports",
+        "responses": {
+          "200": {
+            "description": "a list of unique outbound departure airports",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutboundDepartureAirports"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -186,7 +231,10 @@
             }
           }
         },
-        "required": ["hotel", "items"]
+        "required": [
+          "hotel",
+          "items"
+        ]
       },
       "BestHotelOffer": {
         "type": "object",
@@ -248,7 +296,11 @@
             "type": "number"
           }
         },
-        "required": ["id", "name", "stars"]
+        "required": [
+          "id",
+          "name",
+          "stars"
+        ]
       },
       "Offer": {
         "type": "object",
@@ -318,6 +370,12 @@
           "oceanView",
           "roomType"
         ]
+      },
+      "OutboundDepartureAirports": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       }
     }
   }

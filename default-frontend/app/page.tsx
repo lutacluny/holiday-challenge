@@ -10,6 +10,7 @@ import Link from "next/link";
 import {useRouter, useSearchParams} from "next/navigation";
 import BestHotelOffer = Components.Schemas.BestHotelOffer;
 import {GetBestOffersByHotelFromQuery, GetBestOffersByHotelToQuery} from "@/app/types/converter";
+import SortBy = Paths.GetBestOffersByHotel.Parameters.SortBy;
 
 export default function HomePage() {
     const [offers, setOffers] = useState<BestHotelOffer[]>([]);
@@ -29,7 +30,7 @@ export default function HomePage() {
     }, []);
 
 
-    async function onSubmitSearchForm(departureAirports: string[], countAdults: number, countChildren: number, duration: number, earliestDeparture: string, latestReturn: string) {
+    async function onSubmitSearchForm(departureAirports: string[], countAdults: number, countChildren: number, duration: number, earliestDeparture: string, latestReturn: string, sortBy: SortBy, reverse:boolean) {
         const parameters: Paths.GetBestOffersByHotel.QueryParameters = {
             earliestDepartureDate: earliestDeparture,
             latestReturnDate: latestReturn,
@@ -37,6 +38,8 @@ export default function HomePage() {
             countChildren: countChildren,
             departureAirports: departureAirports,
             duration: duration,
+            sortBy: sortBy,
+            reverse: reverse
         };
 
         await load(parameters);

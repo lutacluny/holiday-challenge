@@ -11,59 +11,59 @@ declare namespace Components {
         /**
          * example:
          * {
-         *   "countAdults": 5,
-         *   "countAvailableOffers": 7,
-         *   "countChildren": 5,
-         *   "departureDate": "2000-01-23",
          *   "duration": 2,
+         *   "returnDate": "2000-01-23",
+         *   "countChildren": 5,
+         *   "minPrice": 1.4658129805029452,
+         *   "mealType": "mealType",
          *   "hotel": {
-         *     "id": 0.8008281904610115,
          *     "name": "name",
+         *     "id": 0.8008281904610115,
          *     "stars": 6.027456183070403
          *   },
-         *   "mealType": "mealType",
-         *   "minPrice": 1.4658129805029452,
-         *   "returnDate": "2000-01-23",
-         *   "roomType": "roomType"
+         *   "departureDate": "2000-01-23",
+         *   "countAvailableOffers": 7,
+         *   "roomType": "roomType",
+         *   "countAdults": 5
          * }
          */
         export interface BestHotelOffer {
-            countAdults: number;
-            countAvailableOffers: number;
-            countChildren: number;
-            departureDate: string; // date
-            duration: number;
             hotel: /**
              * example:
              * {
-             *   "id": 0.8008281904610115,
              *   "name": "name",
+             *   "id": 0.8008281904610115,
              *   "stars": 6.027456183070403
              * }
              */
             Hotel;
-            mealType?: string;
             minPrice: number;
+            departureDate: string; // date
             returnDate: string; // date
             roomType?: string;
+            mealType?: string;
+            countAdults: number;
+            countChildren: number;
+            duration: number;
+            countAvailableOffers: number;
         }
         export type GetBestHotelOffersResponse = /**
          * example:
          * {
-         *   "countAdults": 5,
-         *   "countAvailableOffers": 7,
-         *   "countChildren": 5,
-         *   "departureDate": "2000-01-23",
          *   "duration": 2,
+         *   "returnDate": "2000-01-23",
+         *   "countChildren": 5,
+         *   "minPrice": 1.4658129805029452,
+         *   "mealType": "mealType",
          *   "hotel": {
-         *     "id": 0.8008281904610115,
          *     "name": "name",
+         *     "id": 0.8008281904610115,
          *     "stars": 6.027456183070403
          *   },
-         *   "mealType": "mealType",
-         *   "minPrice": 1.4658129805029452,
-         *   "returnDate": "2000-01-23",
-         *   "roomType": "roomType"
+         *   "departureDate": "2000-01-23",
+         *   "countAvailableOffers": 7,
+         *   "roomType": "roomType",
+         *   "countAdults": 5
          * }
          */
         BestHotelOffer[];
@@ -71,42 +71,42 @@ declare namespace Components {
          * example:
          * {
          *   "hotel": {
-         *     "id": 0.8008281904610115,
          *     "name": "name",
+         *     "id": 0.8008281904610115,
          *     "stars": 6.027456183070403
          *   },
          *   "items": [
          *     {
-         *       "countAdults": 6,
          *       "countChildren": 1,
-         *       "inboundArrivalAirport": "inboundArrivalAirport",
          *       "inboundArrivalDatetime": "inboundArrivalDatetime",
-         *       "inboundDepartureAirport": "inboundDepartureAirport",
-         *       "inboundDepartureDatetime": "2000-01-23",
          *       "mealType": "mealType",
-         *       "oceanView": true,
-         *       "outboundArrivalAirport": "outboundArrivalAirport",
-         *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *       "outboundDepartureDatetime": "2000-01-23",
          *       "outboundDepartureAirport": "outboundDepartureAirport",
-         *       "outbundDepartureDatetime": "2000-01-23",
+         *       "outboundArrivalAirport": "outboundArrivalAirport",
+         *       "countAdults": 6,
+         *       "oceanView": true,
          *       "price": 0.8008281904610115,
-         *       "roomType": "roomType"
+         *       "inboundArrivalAirport": "inboundArrivalAirport",
+         *       "inboundDepartureAirport": "inboundDepartureAirport",
+         *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *       "roomType": "roomType",
+         *       "inboundDepartureDatetime": "2000-01-23"
          *     },
          *     {
-         *       "countAdults": 6,
          *       "countChildren": 1,
-         *       "inboundArrivalAirport": "inboundArrivalAirport",
          *       "inboundArrivalDatetime": "inboundArrivalDatetime",
-         *       "inboundDepartureAirport": "inboundDepartureAirport",
-         *       "inboundDepartureDatetime": "2000-01-23",
          *       "mealType": "mealType",
-         *       "oceanView": true,
-         *       "outboundArrivalAirport": "outboundArrivalAirport",
-         *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *       "outboundDepartureDatetime": "2000-01-23",
          *       "outboundDepartureAirport": "outboundDepartureAirport",
-         *       "outbundDepartureDatetime": "2000-01-23",
+         *       "outboundArrivalAirport": "outboundArrivalAirport",
+         *       "countAdults": 6,
+         *       "oceanView": true,
          *       "price": 0.8008281904610115,
-         *       "roomType": "roomType"
+         *       "inboundArrivalAirport": "inboundArrivalAirport",
+         *       "inboundDepartureAirport": "inboundDepartureAirport",
+         *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *       "roomType": "roomType",
+         *       "inboundDepartureDatetime": "2000-01-23"
          *     }
          *   ]
          * }
@@ -115,8 +115,8 @@ declare namespace Components {
             hotel: /**
              * example:
              * {
-             *   "id": 0.8008281904610115,
              *   "name": "name",
+             *   "id": 0.8008281904610115,
              *   "stars": 6.027456183070403
              * }
              */
@@ -124,20 +124,20 @@ declare namespace Components {
             items: /**
              * example:
              * {
-             *   "countAdults": 6,
              *   "countChildren": 1,
-             *   "inboundArrivalAirport": "inboundArrivalAirport",
              *   "inboundArrivalDatetime": "inboundArrivalDatetime",
-             *   "inboundDepartureAirport": "inboundDepartureAirport",
-             *   "inboundDepartureDatetime": "2000-01-23",
              *   "mealType": "mealType",
-             *   "oceanView": true,
-             *   "outboundArrivalAirport": "outboundArrivalAirport",
-             *   "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *   "outboundDepartureDatetime": "2000-01-23",
              *   "outboundDepartureAirport": "outboundDepartureAirport",
-             *   "outbundDepartureDatetime": "2000-01-23",
+             *   "outboundArrivalAirport": "outboundArrivalAirport",
+             *   "countAdults": 6,
+             *   "oceanView": true,
              *   "price": 0.8008281904610115,
-             *   "roomType": "roomType"
+             *   "inboundArrivalAirport": "inboundArrivalAirport",
+             *   "inboundDepartureAirport": "inboundDepartureAirport",
+             *   "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *   "roomType": "roomType",
+             *   "inboundDepartureDatetime": "2000-01-23"
              * }
              */
             Offer[];
@@ -145,8 +145,8 @@ declare namespace Components {
         /**
          * example:
          * {
-         *   "id": 0.8008281904610115,
          *   "name": "name",
+         *   "id": 0.8008281904610115,
          *   "stars": 6.027456183070403
          * }
          */
@@ -158,38 +158,42 @@ declare namespace Components {
         /**
          * example:
          * {
-         *   "countAdults": 6,
          *   "countChildren": 1,
-         *   "inboundArrivalAirport": "inboundArrivalAirport",
          *   "inboundArrivalDatetime": "inboundArrivalDatetime",
-         *   "inboundDepartureAirport": "inboundDepartureAirport",
-         *   "inboundDepartureDatetime": "2000-01-23",
          *   "mealType": "mealType",
-         *   "oceanView": true,
-         *   "outboundArrivalAirport": "outboundArrivalAirport",
-         *   "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *   "outboundDepartureDatetime": "2000-01-23",
          *   "outboundDepartureAirport": "outboundDepartureAirport",
-         *   "outbundDepartureDatetime": "2000-01-23",
+         *   "outboundArrivalAirport": "outboundArrivalAirport",
+         *   "countAdults": 6,
+         *   "oceanView": true,
          *   "price": 0.8008281904610115,
-         *   "roomType": "roomType"
+         *   "inboundArrivalAirport": "inboundArrivalAirport",
+         *   "inboundDepartureAirport": "inboundDepartureAirport",
+         *   "outboundArrivalDatetime": "outboundArrivalDatetime",
+         *   "roomType": "roomType",
+         *   "inboundDepartureDatetime": "2000-01-23"
          * }
          */
         export interface Offer {
+            price: number;
             countAdults: number;
             countChildren: number;
-            inboundArrivalAirport: string;
-            inboundArrivalDatetime: string; // datetime
             inboundDepartureAirport: string;
             inboundDepartureDatetime: string; // date
-            mealType: string;
-            oceanView: boolean;
+            inboundArrivalAirport: string;
+            inboundArrivalDatetime: string; // datetime
+            outboundDepartureAirport: string;
+            outboundDepartureDatetime: string; // date
             outboundArrivalAirport: string;
             outboundArrivalDatetime: string; // datetime
-            outboundDepartureAirport: string;
-            outbundDepartureDatetime?: string; // date
-            price: number;
+            mealType: string;
+            oceanView: boolean;
             roomType: string;
         }
+        /**
+         * OutboundDepartureAirports
+         */
+        export type OutboundDepartureAirports = string[];
     }
 }
 declare namespace Paths {
@@ -201,6 +205,8 @@ declare namespace Paths {
             export type Duration = number;
             export type EarliestDepartureDate = string; // date
             export type LatestReturnDate = string; // date
+            export type Reverse = boolean;
+            export type SortBy = "stars" | "price";
         }
         export interface QueryParameters {
             earliestDepartureDate: Parameters.EarliestDepartureDate /* date */;
@@ -209,6 +215,8 @@ declare namespace Paths {
             countAdults: Parameters.CountAdults;
             countChildren: Parameters.CountChildren;
             departureAirports: Parameters.DepartureAirports;
+            sortBy?: Parameters.SortBy;
+            reverse?: Parameters.Reverse;
         }
         namespace Responses {
             export type $200 = Components.Schemas.GetBestHotelOffersResponse;
@@ -240,47 +248,52 @@ declare namespace Paths {
              * example:
              * {
              *   "hotel": {
-             *     "id": 0.8008281904610115,
              *     "name": "name",
+             *     "id": 0.8008281904610115,
              *     "stars": 6.027456183070403
              *   },
              *   "items": [
              *     {
-             *       "countAdults": 6,
              *       "countChildren": 1,
-             *       "inboundArrivalAirport": "inboundArrivalAirport",
              *       "inboundArrivalDatetime": "inboundArrivalDatetime",
-             *       "inboundDepartureAirport": "inboundDepartureAirport",
-             *       "inboundDepartureDatetime": "2000-01-23",
              *       "mealType": "mealType",
-             *       "oceanView": true,
-             *       "outboundArrivalAirport": "outboundArrivalAirport",
-             *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *       "outboundDepartureDatetime": "2000-01-23",
              *       "outboundDepartureAirport": "outboundDepartureAirport",
-             *       "outbundDepartureDatetime": "2000-01-23",
+             *       "outboundArrivalAirport": "outboundArrivalAirport",
+             *       "countAdults": 6,
+             *       "oceanView": true,
              *       "price": 0.8008281904610115,
-             *       "roomType": "roomType"
+             *       "inboundArrivalAirport": "inboundArrivalAirport",
+             *       "inboundDepartureAirport": "inboundDepartureAirport",
+             *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *       "roomType": "roomType",
+             *       "inboundDepartureDatetime": "2000-01-23"
              *     },
              *     {
-             *       "countAdults": 6,
              *       "countChildren": 1,
-             *       "inboundArrivalAirport": "inboundArrivalAirport",
              *       "inboundArrivalDatetime": "inboundArrivalDatetime",
-             *       "inboundDepartureAirport": "inboundDepartureAirport",
-             *       "inboundDepartureDatetime": "2000-01-23",
              *       "mealType": "mealType",
-             *       "oceanView": true,
-             *       "outboundArrivalAirport": "outboundArrivalAirport",
-             *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *       "outboundDepartureDatetime": "2000-01-23",
              *       "outboundDepartureAirport": "outboundDepartureAirport",
-             *       "outbundDepartureDatetime": "2000-01-23",
+             *       "outboundArrivalAirport": "outboundArrivalAirport",
+             *       "countAdults": 6,
+             *       "oceanView": true,
              *       "price": 0.8008281904610115,
-             *       "roomType": "roomType"
+             *       "inboundArrivalAirport": "inboundArrivalAirport",
+             *       "inboundDepartureAirport": "inboundDepartureAirport",
+             *       "outboundArrivalDatetime": "outboundArrivalDatetime",
+             *       "roomType": "roomType",
+             *       "inboundDepartureDatetime": "2000-01-23"
              *     }
              *   ]
              * }
              */
             Components.Schemas.GetHotelOffersResponse;
+        }
+    }
+    namespace GetOutboundDepartureAirports {
+        namespace Responses {
+            export type $200 = /* OutboundDepartureAirports */ Components.Schemas.OutboundDepartureAirports;
         }
     }
 }
@@ -302,6 +315,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GetHotelOffers.Responses.$200>
+  /**
+   * get_outbound_departure_airports - get all outbound departure airports
+   */
+  'get_outbound_departure_airports'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.GetOutboundDepartureAirports.Responses.$200>
 }
 
 export interface PathsDictionary {
@@ -324,6 +345,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GetHotelOffers.Responses.$200>
+  }
+  ['/outboundDepartureAirports']: {
+    /**
+     * get_outbound_departure_airports - get all outbound departure airports
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.GetOutboundDepartureAirports.Responses.$200>
   }
 }
 

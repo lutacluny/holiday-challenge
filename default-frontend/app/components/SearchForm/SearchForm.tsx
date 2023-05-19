@@ -4,7 +4,7 @@ import {
     Box, Button,
     Checkbox,
     Chip,
-    FormControl, InputLabel,
+    FormControl, FormControlLabel, InputLabel,
     ListItemText,
     MenuItem,
     Select,
@@ -13,12 +13,14 @@ import {
 } from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import Counter from "@/app/components/Counter/Counter";
-import { useSearchParams } from 'next/navigation';
-import { GetBestOffersByHotelFromQuery } from '@/app/types/converter';
-import dayjs, { Dayjs } from 'dayjs';
+import {useSearchParams} from 'next/navigation';
+import {GetBestOffersByHotelFromQuery} from '@/app/types/converter';
+import dayjs, {Dayjs} from 'dayjs';
+import {Paths} from "@/app/types/openapi";
+import SortBy = Paths.GetBestOffersByHotel.Parameters.SortBy;
 
 type Properties = {
-    submitCallback: (departureAirports: string[], countAdults: number, countChildren: number, duration: number, earliestDeparture: string, latestReturn: string) => Promise<void>
+    submitCallback: (departureAirports: string[], countAdults: number, countChildren: number, duration: number, earliestDeparture: string, latestReturn: string, sortBy: SortBy, reverse: boolean) => Promise<void>
 }
 
 interface Airport {
@@ -51,6 +53,9 @@ export default function SearchForm({submitCallback}: Properties) {
     const [durationInput, setDurationInput] = useState<string>("");
     const [earliestDepartureDate, setEarliestDepartureDate] = useState<Dayjs | null>(null);
     const [latestReturnDate, setLatestReturnDate] = useState<Dayjs | null>(null);
+    const [sortBy, setSortBy] = useState<SortBy>("price");
+    const [reverse, setReverse] = useState<boolean>(false);
+
     const query = useSearchParams();
 
     useEffect(() => {
@@ -62,6 +67,8 @@ export default function SearchForm({submitCallback}: Properties) {
         setDurationInput(params.duration ? params.duration.toString() : "");
         setEarliestDepartureDate(params.earliestDepartureDate ? dayjs(params.earliestDepartureDate) : null);
         setLatestReturnDate(params.latestReturnDate ? dayjs(params.latestReturnDate) : null);
+        setSortBy(params.sortBy ? params.sortBy : "price")
+        setReverse(params.reverse ? params.reverse : false)
     }, [query])
 
     const handleAirportChange = (event: SelectChangeEvent<typeof departureAirports>) => {
@@ -76,7 +83,7 @@ export default function SearchForm({submitCallback}: Properties) {
         setDurationInput(value);
 
         const duration = parseInt(value);
-        if(isNaN(duration)) {
+        if (isNaN(duration)) {
             return;
         }
         setDuration(duration);
@@ -109,23 +116,55 @@ export default function SearchForm({submitCallback}: Properties) {
                     <Counter label="Adults" value={countAdults} setValue={setCountAdults}/>
                 </Stack>
                 <Stack direction="row" gap={2} sx={{alignItems: "center"}}>
-                    <TextField sx={{width: "100%"}} label="Duration (days)" value={durationInput} onChange={handleDurationChange}
+                    <TextField sx={{width: "100%"}} label="Duration (days)" value={durationInput}
+                               onChange={handleDurationChange}
                                type="number" variant="outlined"/>
                     <Typography>between</Typography>
-                    <DatePicker sx={{width: "100%"}} value={earliestDepartureDate} onChange={(value) => setEarliestDepartureDate(value)} label="Earliest departure"/>
+                    <DatePicker sx={{width: "100%"}} value={earliestDepartureDate}
+                                onChange={(value) => setEarliestDepartureDate(value)} label="Earliest departure"/>
                     <Typography>and</Typography>
-                    <DatePicker sx={{width: "100%"}} value={latestReturnDate} onChange={(value) => setLatestReturnDate(value)} label="Latest return"/>
+                    <DatePicker sx={{width: "100%"}} value={latestReturnDate}
+                                onChange={(value) => setLatestReturnDate(value)} label="Latest return"/>
                 </Stack>
-                <Button 
-                    variant="contained" 
+
+                <FormControl>
+                    <Stack direction="row" gap={2} sx={{alignItems: "center"}}>
+                        <InputLabel id="sort-by-label">Sort By</InputLabel>
+                        <Select
+                            id="sort-by"
+                            value={sortBy}
+                            labelId="sort-by-label"
+                            sx={{width: "100%"}}
+                            onChange={(event) => setSortBy(event.target.value as SortBy)}
+                        >
+                            <MenuItem value="price">Price</MenuItem>
+                            <MenuItem value="stars">Stars</MenuItem>
+                        </Select>
+
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={reverse}
+                                    onChange={(event) => setReverse(event.target.checked)}
+                                />
+                            }
+                            label="Reverse Sorting"
+                        />
+                    </Stack>
+                </FormControl>
+
+                <Button
+                    variant="contained"
                     onClick={() =>
                         // parameters should be validated here, but as this is a just a very simple implementation we skip this for now
                         submitCallback(
-                            departureAirports, 
-                            countAdults, countChildren, 
-                            duration, 
-                            earliestDepartureDate ? earliestDepartureDate.toISOString() : "", 
+                            departureAirports,
+                            countAdults, countChildren,
+                            duration,
+                            earliestDepartureDate ? earliestDepartureDate.toISOString() : "",
                             latestReturnDate ? latestReturnDate.toISOString() : "",
+                            sortBy,
+                            reverse
                         )
                     }
                 >
