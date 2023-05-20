@@ -32,6 +32,11 @@ export default function HomePage() {
             return;
         }
 
+        setOffset(0)
+        setOffers([]); // Delete all rendered offers
+        setShowMoreButton(true); // Show the "Show More" button again
+        setLoading(true);
+
         load(parameters).catch(console.error);
     }, []);
 
@@ -47,6 +52,11 @@ export default function HomePage() {
             sortBy: sortBy,
             reverse: reverse
         };
+
+        setOffset(0)
+        setOffers([]); // Delete all rendered offers
+        setShowMoreButton(true); // Show the "Show More" button again
+        setLoading(true);
 
         await load(parameters);
     }
@@ -75,7 +85,7 @@ export default function HomePage() {
         const newOffers = response.data;
 
         setOffers((prevOffers) => [...prevOffers, ...newOffers]);
-        setOffset((prevOffset) => prevOffset + size);
+        setOffset(prevState => (prevState + size));
 
         if (newOffers.length === 0) {
             setShowMoreButton(false);
