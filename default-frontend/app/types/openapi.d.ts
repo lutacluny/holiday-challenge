@@ -205,7 +205,9 @@ declare namespace Paths {
             export type Duration = number;
             export type EarliestDepartureDate = string; // date
             export type LatestReturnDate = string; // date
+            export type Offset = number;
             export type Reverse = boolean;
+            export type Size = number;
             export type SortBy = "" | "stars" | "price";
         }
         export interface QueryParameters {
@@ -215,6 +217,8 @@ declare namespace Paths {
             countAdults: Parameters.CountAdults;
             countChildren: Parameters.CountChildren;
             departureAirports: Parameters.DepartureAirports;
+            offset?: Parameters.Offset;
+            size?: Parameters.Size;
             sortBy?: Parameters.SortBy;
             reverse?: Parameters.Reverse;
         }

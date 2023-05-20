@@ -1,7 +1,7 @@
 "use client";
 
 import SearchForm from "@/app/components/SearchForm/SearchForm";
-import {Stack, Typography} from "@mui/material";
+import {Stack, Typography, Button} from "@mui/material";
 import Hotel from "@/app/components/Hotel/Hotel";
 import {OpenAPIClientAxios} from "openapi-client-axios";
 import {Client, Components, Paths} from "@/app/types/openapi";
@@ -14,12 +14,15 @@ import SortBy = Paths.GetBestOffersByHotel.Parameters.SortBy;
 
 export default function HomePage() {
     const [offers, setOffers] = useState<BestHotelOffer[]>([]);
-    const [queryParameters, setQueryParameters] = useState<Paths.GetBestOffersByHotel.QueryParameters>();
-    const [currentPage, setCurrentPage] = useState(1); // Current page number
-    const [totalPages, setTotalPages] = useState(0); // Total number of pages
-
+    const [showMoreButton, setShowMoreButton] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [queryParameters, setQueryParameters] = useState<
+        Paths.GetBestOffersByHotel.QueryParameters>();
+    const [offset, setOffset] = useState(0);
+    const size = 10;
     const router = useRouter();
     const query = useSearchParams();
+
 
     // update the search form and automatically load offers if a search is existing
     useEffect(() => {
@@ -51,17 +54,34 @@ export default function HomePage() {
     async function load(parameters: Paths.GetBestOffersByHotel.QueryParameters) {
         setQueryParameters(parameters);
         router.push("/?" + GetBestOffersByHotelToQuery(parameters));
-        console.log(parameters)
+
+        setLoading(true);
+
         const api = new OpenAPIClientAxios({
-            definition: 'http://localhost:8090/openapi.json', axiosConfigDefaults: {
+            definition: "http://localhost:8090/openapi.json",
+            axiosConfigDefaults: {
                 withCredentials: true,
-                baseURL: 'http://localhost:8090',
-                paramsSerializer: {indexes: null}
+                baseURL: "http://localhost:8090",
+                paramsSerializer: {indexes: null},
             },
-        })
-        const client = await api.init<Client>()
-        const response = await client.get_best_offers_by_hotel(parameters)
-        setOffers(response.data);
+        });
+        const client = await api.init<Client>();
+
+        const response = await client.get_best_offers_by_hotel({
+            ...parameters,
+            offset: offset,
+            size: size
+        });
+        const newOffers = response.data;
+
+        setOffers((prevOffers) => [...prevOffers, ...newOffers]);
+        setOffset((prevOffset) => prevOffset + size);
+
+        if (newOffers.length === 0) {
+            setShowMoreButton(false);
+        }
+
+        setLoading(false);
     }
 
     return (
@@ -70,12 +90,22 @@ export default function HomePage() {
             <SearchForm submitCallback={onSubmitSearchForm}/>
             <Typography variant="h4" sx={{mt: "60px", mb: "30px"}}>Hotels for your Mallorca-Trip:</Typography>
             <Stack gap={3}>
-                {offers.map(offer =>
-                    <Link key={offer.hotel.id}
-                          href={{pathname: '/offers', query: {...queryParameters, hotelId: offer.hotel.id}}}
-                          style={{textDecoration: "none"}}>
+                {offers.map((offer) => (
+                    <Link
+                        key={offer.hotel.id}
+                        href={{
+                            pathname: "/offers",
+                            query: {...queryParameters, hotelId: offer.hotel.id},
+                        }}
+                        style={{textDecoration: "none"}}
+                    >
                         <Hotel offer={offer}/>
                     </Link>
+                ))}
+                {showMoreButton && (
+                    <Button disabled={loading} onClick={() => load(queryParameters)}>
+                        {loading ? "Loading..." : "Show More"}
+                    </Button>
                 )}
             </Stack>
         </>
