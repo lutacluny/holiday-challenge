@@ -11,18 +11,18 @@ import {useRouter, useSearchParams} from "next/navigation";
 import BestHotelOffer = Components.Schemas.BestHotelOffer;
 import {GetBestOffersByHotelFromQuery, GetBestOffersByHotelToQuery} from "@/app/types/converter";
 import SortBy = Paths.GetBestOffersByHotel.Parameters.SortBy;
+import QueryParameters = Paths.GetBestOffersByHotel.QueryParameters;
 
 export default function HomePage() {
     const [offers, setOffers] = useState<BestHotelOffer[]>([]);
     const [showMoreButton, setShowMoreButton] = useState(true);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true)
     const [queryParameters, setQueryParameters] = useState<
         Paths.GetBestOffersByHotel.QueryParameters>();
-    const [offset, setOffset] = useState(0);
     const size = 10;
     const router = useRouter();
     const query = useSearchParams();
-
+    const [currentOffset, setCurrentOffset] = useState(0)
 
     // update the search form and automatically load offers if a search is existing
     useEffect(() => {
@@ -32,12 +32,7 @@ export default function HomePage() {
             return;
         }
 
-        setOffset(0)
-        setOffers([]); // Delete all rendered offers
-        setShowMoreButton(true); // Show the "Show More" button again
-        setLoading(true);
-
-        load(parameters).catch(console.error);
+        load(parameters, 0).catch(console.error);
     }, []);
 
 
@@ -53,19 +48,17 @@ export default function HomePage() {
             reverse: reverse
         };
 
-        setOffset(0)
-        setOffers([]); // Delete all rendered offers
-        setShowMoreButton(true); // Show the "Show More" button again
-        setLoading(true);
+        setOffers([])
+        setCurrentOffset(0)
 
-        await load(parameters);
+        await load(parameters, 0);
     }
 
-    async function load(parameters: Paths.GetBestOffersByHotel.QueryParameters) {
+    async function load(parameters: QueryParameters, offset: number) {
+        setLoading(true)
+
         setQueryParameters(parameters);
         router.push("/?" + GetBestOffersByHotelToQuery(parameters));
-
-        setLoading(true);
 
         const api = new OpenAPIClientAxios({
             definition: "http://localhost:8090/openapi.json",
@@ -85,13 +78,13 @@ export default function HomePage() {
         const newOffers = response.data;
 
         setOffers((prevOffers) => [...prevOffers, ...newOffers]);
-        setOffset(prevState => (prevState + size));
 
         if (newOffers.length === 0) {
             setShowMoreButton(false);
         }
 
-        setLoading(false);
+        setLoading(false)
+
     }
 
     return (
@@ -100,23 +93,28 @@ export default function HomePage() {
             <SearchForm submitCallback={onSubmitSearchForm}/>
             <Typography variant="h4" sx={{mt: "60px", mb: "30px"}}>Hotels for your Mallorca-Trip:</Typography>
             <Stack gap={3}>
-                {offers.map((offer) => (
-                    <Link
-                        key={offer.hotel.id}
-                        href={{
-                            pathname: "/offers",
-                            query: {...queryParameters, hotelId: offer.hotel.id},
-                        }}
-                        style={{textDecoration: "none"}}
-                    >
-                        <Hotel offer={offer}/>
-                    </Link>
-                ))}
-                {showMoreButton && (
-                    <Button disabled={loading} onClick={() => load(queryParameters)}>
-                        {loading ? "Loading..." : "Show More"}
-                    </Button>
+                {!loading && offers.length === 0 ? (
+                    <div>We are sorry. There do not exist any offer for your request. :(</div>
+                ) : (
+                    offers.map((offer) => (
+                        <Link
+                            key={offer.hotel.id}
+                            href={{
+                                pathname: "/offers",
+                                query: {...queryParameters, hotelId: offer.hotel.id},
+                            }}
+                            style={{textDecoration: "none"}}
+                        >
+                            <Hotel offer={offer}/>
+                        </Link>
+                    ))
                 )}
+
+                <Button disabled={showMoreButton} onClick={() => {
+                    setCurrentOffset(currentOffset + 10);
+                    load(queryParameters as QueryParameters, currentOffset + 10);
+                }}>
+                </Button>
             </Stack>
         </>
     )

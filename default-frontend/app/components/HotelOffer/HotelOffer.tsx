@@ -19,13 +19,13 @@ export default function HotelOffer({offer}: {offer: Offer}) {
 
     return (
         <Card>
-            <CardHeader sx={{backgroundColor: "#ededed"}} title={<Typography fontWeight="bold">{getTravelDurationString(offer.outbundDepartureDatetime, offer.inboundArrivalDatetime)} Days - {offer.outboundDepartureAirport}, {offer.outboundArrivalAirport}</Typography>}/>
+            <CardHeader sx={{backgroundColor: "#ededed"}} title={<Typography fontWeight="bold">{getTravelDurationString(offer.outboundDepartureDatetime, offer.inboundArrivalDatetime)} Days - {offer.outboundDepartureAirport}, {offer.outboundArrivalAirport}</Typography>}/>
             <CardContent>
                 <Stack direction="row" justifyContent="space-between">
                     <Stack gap={2}>
                         <Flight 
                             inbound={true} 
-                            departureDatetime={offer.outbundDepartureDatetime}
+                            departureDatetime={offer.outboundDepartureDatetime}
                             departureAirport={offer.outboundDepartureAirport}
                             arrivalDatetime={offer.outboundArrivalDatetime}
                             arrivalAirport={offer.outboundArrivalAirport}
@@ -56,7 +56,7 @@ export default function HotelOffer({offer}: {offer: Offer}) {
                     </Stack>
                     <Stack justifyContent="end" gap={2}>
                         <Stack m={0} direction="row" divider={<Divider orientation="vertical" flexItem/>} spacing={1}>
-                            <Typography variant="body1">{getTravelDurationString(offer.outbundDepartureDatetime, offer.inboundArrivalDatetime)} Days</Typography>
+                            <Typography variant="body1">{getTravelDurationString(offer.outboundDepartureDatetime, offer.inboundArrivalDatetime)} Days</Typography>
                             <Typography variant="body1">{offer.countAdults} Adults</Typography>
                             <Typography variant="body1">{offer.countChildren} Children</Typography>
                         </Stack>

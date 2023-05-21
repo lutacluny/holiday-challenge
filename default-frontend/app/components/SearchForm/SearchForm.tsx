@@ -169,7 +169,7 @@ export default function SearchForm({submitCallback}: Properties) {
                             earliestDepartureDate ? earliestDepartureDate.toISOString() : "",
                             latestReturnDate ? latestReturnDate.toISOString() : "",
                             sortBy,
-                            reverse
+                            reverse,
                         )
                     }
                 >
