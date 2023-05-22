@@ -1,21 +1,20 @@
 "use client";
 
 import SearchForm from "@/app/components/SearchForm/SearchForm";
-import {Stack, Typography, Button} from "@mui/material";
+import {Button, Stack, Typography} from "@mui/material";
 import Hotel from "@/app/components/Hotel/Hotel";
 import {OpenAPIClientAxios} from "openapi-client-axios";
 import {Client, Components, Paths} from "@/app/types/openapi";
 import {useEffect, useState} from "react";
 import Link from "next/link";
 import {useRouter, useSearchParams} from "next/navigation";
-import BestHotelOffer = Components.Schemas.BestHotelOffer;
 import {GetBestOffersByHotelFromQuery, GetBestOffersByHotelToQuery} from "@/app/types/converter";
+import BestHotelOffer = Components.Schemas.BestHotelOffer;
 import SortBy = Paths.GetBestOffersByHotel.Parameters.SortBy;
 import QueryParameters = Paths.GetBestOffersByHotel.QueryParameters;
 
 export default function HomePage() {
     const [offers, setOffers] = useState<BestHotelOffer[]>([]);
-    const [showMoreButton, setShowMoreButton] = useState(true);
     const [loading, setLoading] = useState(true)
     const [queryParameters, setQueryParameters] = useState<
         Paths.GetBestOffersByHotel.QueryParameters>();
@@ -79,10 +78,6 @@ export default function HomePage() {
 
         setOffers((prevOffers) => [...prevOffers, ...newOffers]);
 
-        if (newOffers.length === 0) {
-            setShowMoreButton(false);
-        }
-
         setLoading(false)
 
     }
@@ -110,12 +105,16 @@ export default function HomePage() {
                     ))
                 )}
 
-                <Button disabled={showMoreButton} onClick={() => {
-                    setCurrentOffset(currentOffset + 10);
-                    load(queryParameters as QueryParameters, currentOffset + 10);
-                }}>
-                </Button>
+                {!loading &&
+                    <Button disabled={offers.length === 0}
+                            onClick={() => {
+                                setCurrentOffset(currentOffset + 10);
+                                load(queryParameters as QueryParameters, currentOffset + 10);
+                            }}> Load More
+                    </Button>
+                }
             </Stack>
         </>
     )
 }
+
