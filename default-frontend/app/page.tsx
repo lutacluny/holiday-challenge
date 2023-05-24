@@ -22,6 +22,8 @@ export default function HomePage() {
     const router = useRouter();
     const query = useSearchParams();
     const [currentOffset, setCurrentOffset] = useState(0)
+    const [allOffersLoaded, setAllOffersLoaded] = useState(false)
+
 
     // update the search form and automatically load offers if a search is existing
     useEffect(() => {
@@ -47,6 +49,7 @@ export default function HomePage() {
             reverse: reverse
         };
 
+        setAllOffersLoaded(false)
         setOffers([])
         setCurrentOffset(0)
 
@@ -75,6 +78,10 @@ export default function HomePage() {
             size: size
         });
         const newOffers = response.data;
+
+        if (newOffers.length === 0) {
+            setAllOffersLoaded(true)
+        }
 
         setOffers((prevOffers) => [...prevOffers, ...newOffers]);
 
@@ -106,7 +113,7 @@ export default function HomePage() {
                 )}
 
                 {!loading &&
-                    <Button disabled={offers.length === 0}
+                    <Button disabled={allOffersLoaded}
                             onClick={() => {
                                 setCurrentOffset(currentOffset + 10);
                                 load(queryParameters as QueryParameters, currentOffset + 10);

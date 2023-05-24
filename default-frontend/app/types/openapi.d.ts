@@ -235,6 +235,8 @@ declare namespace Paths {
             export type EarliestDepartureDate = string; // date
             export type HotelId = number;
             export type LatestReturnDate = string; // date
+            export type Offset = number;
+            export type Size = number;
         }
         export interface PathParameters {
             hotelId: Parameters.HotelId;
@@ -246,6 +248,8 @@ declare namespace Paths {
             countAdults: Parameters.CountAdults;
             countChildren: Parameters.CountChildren;
             departureAirports: Parameters.DepartureAirports;
+            offset?: Parameters.Offset;
+            size?: Parameters.Size;
         }
         namespace Responses {
             export type $200 = /**

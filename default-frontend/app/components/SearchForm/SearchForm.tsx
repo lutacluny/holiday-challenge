@@ -1,15 +1,20 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import './SearchForm.css';
 import {
-    Box, Button,
+    Box,
+    Button,
     Checkbox,
     Chip,
-    FormControl, FormControlLabel, InputLabel,
+    FormControl,
+    FormControlLabel,
+    InputLabel,
     ListItemText,
     MenuItem,
     Select,
-    SelectChangeEvent, Stack,
-    TextField, Typography,
+    SelectChangeEvent,
+    Stack,
+    TextField,
+    Typography,
 } from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import Counter from "@/app/components/Counter/Counter";
@@ -160,8 +165,39 @@ export default function SearchForm({submitCallback}: Properties) {
 
                 <Button
                     variant="contained"
-                    onClick={() =>
-                        // parameters should be validated here, but as this is a just a very simple implementation we skip this for now
+                    onClick={() => {
+
+                        // Parameter checks
+                        if (!Array.isArray(departureAirports) || departureAirports.length === 0) {
+                            alert('Please select at least one departure airport.');
+                            return;
+                        }
+
+                        if (!Number.isInteger(duration) || duration <= 0) {
+                            alert('Please select the desired duration.');
+                            return;
+                        }
+
+                        if (!Number.isInteger(countAdults) || countAdults <= 0) {
+                            alert('Please select number of adults.');
+                            return;
+                        }
+
+                        if (!Number.isInteger(countChildren) || countChildren < 0) {
+                            alert('Number of children should be a non-negative integer.');
+                            return;
+                        }
+
+                        if (earliestDepartureDate === null) {
+                            alert('Please provide a valid earliest departure date.');
+                            return;
+                        }
+
+                        if (latestReturnDate === null) {
+                            alert('Please provide a valid latest return date.');
+                            return;
+                        }
+
                         submitCallback(
                             departureAirports,
                             countAdults, countChildren,
@@ -171,6 +207,7 @@ export default function SearchForm({submitCallback}: Properties) {
                             sortBy,
                             reverse,
                         )
+                    }
                     }
                 >
                     Suchen
